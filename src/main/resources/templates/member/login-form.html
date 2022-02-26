@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+<title>로그인</title>
+
+<main class="container" th:fragment="body">
+    <div class="row justify-content-center m-5 p-4">
+        <form th:action th:method="post" class="col-4" th:object="${loginForm}">
+            <h1 class="h1 mb-3 fw-normal text-center">로그인</h1>
+
+            <div class="form-floating">
+                <input type="email" class="form-control" th:errorclass="border-danger" id="floatingInput" th:field="*{email}" placeholder="name@example.com">
+                <label for="floatingInput">이메일</label>
+            </div>
+            <div class="text-danger" th:errors="*{email}">
+                이메일 오류
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" th:errorclass="border-danger" id="floatingPassword" th:field="*{password}" placeholder="Password">
+                <label for="floatingPassword">비밀번호</label>
+            </div>
+            <div class="mb-3" th:unless="${#fields.hasErrors('password')}">
+            </div>
+            <div class="text-danger" th:errors="*{password}">
+                비밀번호 오류
+            </div>
+            <div class="text-danger" th:errors="${loginForm}">
+                등록되지 않은 이메일이거나 비밀번호가 틀렸습니다.
+            </div>
+
+            <button class="w-100 btn btn-lg btn-primary" type="submit">[[#{button.login}]]</button>
+        </form>
+    </div>
+
+</main>
+</html>

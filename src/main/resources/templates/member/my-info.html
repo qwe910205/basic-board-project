@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+
+<title>[[#{label.myInfo}]]</title>
+
+<div th:fragment="body" class="container">
+    <div class="row">
+        <div class="col-2">
+            <th:block th:replace="~{member/fragment/list-group :: listGroup}">
+
+            </th:block>
+        </div>
+        <div class="col-9 offset-1">
+            <div class="h1 mb-5">
+                [[#{label.myInfo}]]
+            </div>
+            <form th:action th:method="post" class="form" th:object="${memberEditForm}">
+                <div class="row mb-3">
+                    <label for="email" class="col-2 col-form-label">[[#{label.email}]]</label>
+                    <div class="col-8">
+                        <input type="email" class="form-control" id="email" name="email" th:value="${email}" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="name" class="col-2 col-form-label">[[#{label.name}]]</label>
+                    <div class="col-8">
+                        <input type="text" class="form-control" th:errorclass="border-danger" id="name" th:field="*{name}">
+                        <div class="text-danger" th:errors="*{name}">
+                            이름 오류
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="phone" class="col-2 col-form-label">[[#{label.phone}]]</label>
+                    <div class="col-8">
+                        <input type="text" class="form-control" id="phone" th:errorclass="border-danger" th:field="*{phone}">
+                        <div class="text-danger" th:errors="*{phone}">
+                            휴대폰 오류
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="createdDate" class="col-2 col-form-label">가입날짜</label>
+                    <div class="col-8">
+                        <input type="text" class="form-control" id="createdDate" name="createdDate" th:value="${#temporals.format(createdDate, 'yyyy년 MM월 dd일')}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary col-auto">[[#{button.save}]]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</html>

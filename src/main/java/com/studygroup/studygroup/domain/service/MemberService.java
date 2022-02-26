@@ -2,6 +2,7 @@ package com.studygroup.studygroup.domain.service;
 
 import com.studygroup.studygroup.domain.dto.MemberUpdateDto;
 import com.studygroup.studygroup.domain.entity.Member;
+import com.studygroup.studygroup.domain.exception.NotUniqueMemberException;
 import com.studygroup.studygroup.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class MemberService {
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
         if (findMembers.size() > 0) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+            throw new NotUniqueMemberException("이미 가입된 이메일입니다.");
         }
     }
 }

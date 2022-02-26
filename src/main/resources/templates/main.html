@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+<title th:text="스터디그룹">스터디그룹</title>
+<div th:fragment="body" class="container position-relative">
+    <div class="alert alert-primary alert-dismissible position-absolute top-0 start-50 translate-middle" role="alert" id="liveAlert1" th:if="${param.status}">
+        회원가입에 성공하였습니다.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="alert alert-primary alert-dismissible position-absolute top-0 start-50 translate-middle" role="alert" id="liveAlert2" th:if="${param.secession}">
+        정상적으로 탈퇴되었습니다.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="h1 text-center m-4">
+        스터디 그룹을 만들 수 있는 웹 사이트입니다.
+    </div>
+</div>
+</html>

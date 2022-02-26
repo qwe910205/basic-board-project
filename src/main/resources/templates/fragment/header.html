@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header class="bg-dark mb-5" th:unless="${#session}">
+    <div class="container">
+        <div class="row align-items-center justify-content-between p-3">
+            <div class="d-flex col-auto">
+                <button type="button" class="btn btn-light me-4" onclick="location.href='/'">로고</button>
+                <ul class="nav nav-pills">
+                    <li class="nav-items"><a href="#" th:href="@{/contents}" class="nav-link px-2 text-white">게시판</a></li>
+                </ul>
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-light" onclick="location.href='/members/login'">[[#{button.login}]]</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='/members/join'">[[#{button.join}]]</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<header class="bg-dark mb-5"  th:if="${#session}">
+    <div class="container">
+        <div class="row align-items-center justify-content-between p-3">
+            <div class="d-flex col-auto">
+                <button type="button" class="btn btn-light me-4" onclick="location.href='/'">로고</button>
+                <ul class="nav nav-pills">
+                    <li class="nav-items"><a href="#" th:href="@{/contents}" class="nav-link px-2 text-white">게시판</a></li>
+                </ul>
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-info" onclick="location.href='/members/my-info'">[[#{button.myPage}]]</button>
+                <button type="button" class="btn btn-danger" onclick="location.href='/members/logout'">[[#{button.logout}]]</button>
+            </div>
+        </div>
+    </div>
+</header>
+</html>

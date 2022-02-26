@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+<title>회원가입</title>
+
+<div th:fragment="body" class="container">
+    <div class="h1 text-center m-4 p-4">
+        회원가입
+    </div>
+    <form th:action th:method="post" class="form" th:object="${joinForm}">
+        <div class="row mb-3">
+            <label for="email" class="col-2 offset-2 col-form-label">[[#{label.email}]]</label>
+            <div class="col-6">
+                <input type="email" class="form-control" th:errorclass="border-danger" id="email" th:field="*{email}" placeholder="name@example.com">
+                <div class="text-danger" th:errors="*{email}">
+                    이메일 오류
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="password" class="col-2 offset-2 col-form-label">[[#{label.password}]]</label>
+            <div class="col-6">
+                <input type="password" class="form-control" th:errorclass="border-danger" id="password" th:field="*{password}" placeholder="영문, 특수문자, 숫자 포함 8자 이상">
+                <div class="text-danger" th:errors="*{password}">
+                    비밀번호 오류
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="name" class="col-2 offset-2 col-form-label">[[#{label.name}]]</label>
+            <div class="col-6">
+                <input type="text" class="form-control" th:errorclass="border-danger" id="name" th:field="*{name}" placeholder="이름을 입력해주세요">
+                <div class="text-danger" th:errors="*{name}">
+                    이름 오류
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="phone" class="col-2 offset-2 col-form-label">[[#{label.phone}]]</label>
+            <div class="col-6">
+                <input type="text" class="form-control" th:errorclass="border-danger" id="phone" th:field="*{phone}" placeholder="-없이 입력해주세요">
+                <div class="text-danger" th:errors="*{phone}">
+                    휴대폰 오류
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-primary col-auto offset-2">[[#{button.join}]]</button>
+        </div>
+
+
+    </form>
+</div>
+</html>

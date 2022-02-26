@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<div class="list-group" th:fragment="listGroup">
+    <a th:href="@{/members/my-info}" class="list-group-item list-group-item-action" th:classappend="${#request.requestURI eq '/members/my-info'} ? active">
+        [[#{label.myInfo}]]
+    </a>
+    <a th:href="@{/members/edit-password}" class="list-group-item list-group-item-action" th:classappend="${#request.requestURI eq '/members/edit-password'} ? active">
+        [[#{label.changePassword}]]
+    </a>
+    <a th:href="@{/members/my-activity}" class="list-group-item list-group-item-action" th:classappend="${#request.requestURI eq '/members/my-activity'} ? active">
+        [[#{label.myActivity}]]
+    </a>
+    <a th:href="@{/members/secession}" class="list-group-item list-group-item-action" th:classappend="${#request.requestURI eq '/members/secession'} ? active">
+        [[#{label.secession}]]
+    </a>
+</div>
+
+</html>

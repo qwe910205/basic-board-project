@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+
+<title>회원 탈퇴</title>
+
+<div class="container position-relative" th:fragment="body">
+    <!-- Modal -->
+    <div class="modal fade" id="confirmSecessionModal" tabindex="-1" aria-labelledby="secessionModelLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="secessionModelLabel">회원 탈퇴</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action th:method="post" class="form">
+                        <label for="password" class="form-label">
+                            탈퇴하시려면 아래에 비밀번호를 입력해주세요.
+                        </label>
+                        <input type="password" class="form-control mb-3" id="password" name="password">
+                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-2">
+            <th:block th:replace="~{member/fragment/list-group :: listGroup}">
+
+            </th:block>
+        </div>
+        <div class="col-9 offset-1">
+            <div class="h1 mb-5">
+                [[#{label.secession}]]
+            </div>
+            <div class="mb-3">
+                회원을 탈퇴하시면 회원님께서 게시한 글은 모두 삭제되며, 회원 정보는 복구할 수 없습니다.<br>
+                삭제하시겠습니까?
+            </div>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmSecessionModal">탈퇴하기</button>
+        </div>
+    </div>
+
+    <div class="alert alert-danger alert-dismissible position-absolute top-0 start-50 translate-middle" role="alert" id="liveAlert" th:if="${param.passwordNotMatch}">
+        비밀번호가 틀렸습니다.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+</html>
