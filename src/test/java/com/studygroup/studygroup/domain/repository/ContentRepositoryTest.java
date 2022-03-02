@@ -62,21 +62,6 @@ class ContentRepositoryTest {
     }
 
     @Test
-    public void findAll() {
-        // given
-        Content content = createContent();
-        Content content1 = createContent();
-        contentRepository.save(content);
-        contentRepository.save(content1);
-
-        // when
-        List<Content> contents = contentRepository.findAll();
-
-        // then
-        assertThat(contents).containsExactly(content, content1);
-    }
-
-    @Test
     public void getMember() {
         // given
         Content content = createContent();
@@ -90,6 +75,23 @@ class ContentRepositoryTest {
 
         // then
         assertThat(name).isEqualTo("김대현");
+    }
+
+    @Test
+    public void count() {
+        // given
+        Member member = new Member("+qwe123456", "김대현", "qwe910205@naver.com", "01056588994");
+        memberRepository.save(member);
+        for (int i = 0; i < 100; i++) {
+            Content content = new Content("스프링", "재밌음", member);
+            contentRepository.save(content);
+        }
+
+        // when
+        Long count = contentRepository.count();
+
+        // then
+        assertThat(count).isEqualTo(100L);
     }
 
     private Content createContent() {

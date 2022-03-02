@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+<title th:text="${content.title}"></title>
+
+<div th:fragment="body" class="container">
+    <div class="h1 text-center" th:text="${content.title}"></div>
+    <div class="row mb-5 justify-content-end">
+        <div class="col-auto fw-bold" th:text="${content.member.name}">
+        </div>
+        <div class="col-auto" th:text="${#calendars.format(#calendars.createNow(), 'yyyy년 MM월 dd일')} eq ${#temporals.format(content.createdDate, 'yyyy년 MM월 dd일')}
+     ? ${#temporals.format(content.createdDate, 'hh:mm:ss')} : ${#temporals.format(content.createdDate, 'yyyy년 MM월 dd일')}"></div>
+    </div>
+    <div th:text="${content.mainText}">
+
+    </div>
+    <div class="text-end">
+        <button type="button" class="btn btn-secondary" th:onclick="location.href='/board/list'">목록</button>
+        <button type="button" class="btn btn-primary" th:if="${session.loginMember eq content.member.memberId}" th:onclick="'location.href=\'/board/' + ${content.contentId} + '/update\''">
+            [[#{button.update}]]
+        </button>
+        <button type="button" class="btn btn-danger" th:if="${session.loginMember eq content.member.memberId}" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+            삭제하기
+        </button>
+    </div>
+
+    <!--Modal-->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">게시글 삭제</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    게시글을 삭제하면 복구할 수 없습니다.<br>
+                    정말 삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" th:onclick="'location.href=\'/board/' + ${content.contentId} + '/delete\''">
+                        [[#{button.delete}]]
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">[[#{button.cancel}]]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

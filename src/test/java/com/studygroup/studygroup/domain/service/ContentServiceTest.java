@@ -42,65 +42,6 @@ class ContentServiceTest {
     }
 
     @Test
-    public void searchByTitle() {
-        // given
-        Member member = createMember();
-        memberService.join(member);
-        Content content = createContent(member);
-        contentService.post(content);
-        Content content1 = new Content("스프링 개노잼", "너무 해야할게 많음. 지루함", member);
-        contentService.post(content1);
-        Content content2 = new Content("리액트 개꿀잼", "해보면 암", member);
-        contentService.post(content2);
-
-        // when
-        List<Content> contents = contentService.searchByTitle("스프링");
-
-        // then
-        assertThat(contents).containsExactly(content, content1);
-    }
-
-    @Test
-    public void searchByMainText() {
-        // given
-        Member member = createMember();
-        memberService.join(member);
-        Content content = createContent(member);
-        contentService.post(content);
-        Content content1 = new Content("스프링 개노잼", "객체지향적으로 짜는거 귀찮음. 그냥 명령형이 낫다.", member);
-        contentService.post(content1);
-        Content content2 = new Content("리액트 개꿀잼", "해보면 암", member);
-        contentService.post(content2);
-
-        // when
-        List<Content> contents = contentService.searchByMainText("객체지향");
-
-        // then
-        assertThat(contents).containsExactly(content, content1);
-    }
-
-    @Test
-    public void searchByMember() {
-        Member member = createMember();
-        memberService.join(member);
-        Member member1 = new Member("qwe123456", "김덕현", "qwe656584@naver.com", "01059748422");
-        memberService.join(member1);
-
-        Content content = createContent(member);
-        Content content1 = createContent(member);
-        Content content2 = createContent(member1);
-        contentService.post(content);
-        contentService.post(content1);
-        contentService.post(content2);
-
-        // when
-        List<Content> contents = contentService.searchByMember(member);
-
-        // then
-        assertThat(contents).containsExactly(content, content1);
-    }
-
-    @Test
     public void update() {
         Member member = createMember();
         memberService.join(member);
@@ -117,15 +58,20 @@ class ContentServiceTest {
     }
 
     @Test
-    public void delete() {
+    public void addViews() {
         Member member = createMember();
         memberService.join(member);
         Content content = createContent(member);
         contentService.post(content);
 
-        contentService.delete(content);
+        contentService.addView(content.getContentId());
 
-        assertThat(contentRepository.findAll().size()).isEqualTo(0);
+        em.flush();
+        em.clear();
+
+        Content findContent = contentRepository.findById(content.getContentId());
+
+        assertThat(findContent.getViews()).isEqualTo(1);
     }
 
     private Member createMember() {

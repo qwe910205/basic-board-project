@@ -37,19 +37,6 @@ class MemberServiceTest {
     }
 
     @Test
-    public void searchByMemberId() {
-        // given
-        Member member = createMember();
-        memberRepository.save(member);
-
-        // when
-        Member findMember = memberService.searchMemberById(member.getMemberId());
-
-        // then
-        assertThat(findMember.getMemberId()).isEqualTo(member.getMemberId());
-    }
-
-    @Test
     public void updateName() {
         // given
         Member member = createMember();

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+
+<title>게시판</title>
+
+<div th:fragment="body" class="container">
+    <form th:action th:method="post" th:object="${contentForm}">
+        <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" class="form-control" th:errorclass="border-danger" id="title" th:field="*{title}" placeholder="제목은 필수입니다.">
+            <div th:errors="*{title}" class="text-danger">제목 오류</div>
+        </div>
+        <div class="mb-3">
+            <label for="mainText" class="form-label">본문</label>
+            <textarea class="form-control" id="mainText" th:field="*{mainText}" rows="10"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">작성하기</button>
+    </form>
+</div>
+</html>

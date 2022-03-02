@@ -1,16 +1,15 @@
 package com.studygroup.studygroup.web.controller.member;
 
 import com.studygroup.studygroup.domain.dto.MemberUpdateDto;
+import com.studygroup.studygroup.domain.entity.Content;
 import com.studygroup.studygroup.domain.entity.Member;
 import com.studygroup.studygroup.domain.exception.NotUniqueMemberException;
+import com.studygroup.studygroup.domain.repository.ContentRepository;
 import com.studygroup.studygroup.domain.repository.MemberRepository;
 import com.studygroup.studygroup.domain.service.MemberService;
 import com.studygroup.studygroup.web.argumentresolver.Login;
-import com.studygroup.studygroup.web.form.EditPasswordForm;
-import com.studygroup.studygroup.web.form.MemberEditForm;
+import com.studygroup.studygroup.web.form.*;
 import com.studygroup.studygroup.web.session.SessionConst;
-import com.studygroup.studygroup.web.form.JoinForm;
-import com.studygroup.studygroup.web.form.LoginForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,6 +31,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final ContentRepository contentRepository;
 
     @GetMapping("/login")
     public String loginForm(Model model) {
@@ -144,6 +144,23 @@ public class MemberController {
 
         redirectAttributes.addAttribute("status", true);
         return "redirect:/members/edit-password";
+    }
+
+    @GetMapping("/my-activity")
+    public String getMyContents(Model model, @Login Member loginMember, @RequestParam(defaultValue = "1") Integer page,
+                                  @RequestParam(defaultValue = "10") Integer pageSize) {
+
+        int offset = (page - 1) * pageSize;
+
+        List<Content> contents = contentRepository.findByMemberId(loginMember, offset, pageSize);
+        Long totalCount = contentRepository.countByMemberId(loginMember);
+
+        Pagination pagination = new Pagination(totalCount.intValue(), page, pageSize);
+
+        model.addAttribute("contents", contents);
+        model.addAttribute("pagination", pagination);
+
+        return "member/my-activity";
     }
 
     @GetMapping("/secession")

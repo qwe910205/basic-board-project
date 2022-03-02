@@ -12,29 +12,21 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Transactional(readOnly = false)
     public Long join(Member member) {
         validateDuplicateMember(member);
         return memberRepository.save(member);
     }
 
-    public Member searchMemberById(Long id) {
-        Member member = memberRepository.findByMemberId(id);
-        return member;
-    }
-
-    @Transactional(readOnly = false)
     public void update(MemberUpdateDto dto) {
         Member findMember = memberRepository.findByMemberId(dto.getId());
         findMember.update(dto.getPassword(), dto.getName(), dto.getPhone());
     }
 
-    @Transactional(readOnly = false)
     public void secession(Member member) {
         memberRepository.remove(member);
     }

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+
+<title>내 활동</title>
+
+<div th:fragment="body" class="container">
+    <div class="row">
+        <div class="col-2">
+            <th:block th:replace="~{member/fragment/list-group :: listGroup}">
+
+            </th:block>
+        </div>
+        <div class="col-9 offset-1">
+            <div class="h1 mb-5">
+                [[#{label.myActivity}]]
+            </div>
+
+            <table class="table table-hover text-center">
+                <thead>
+                <tr>
+                    <th scope="col" style="width: 7%">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col" style="width: 7%">글쓴이</th>
+                    <th scope="col" style="width: 10%">작성일</th>
+                    <th scope="col" style="width: 7%">조회수</th>
+                </tr>
+                </thead>
+
+                <tr th:each="content : ${contents}">
+                    <td th:text="${content.contentId}">id</td>
+                    <td><a th:href="@{/board/{contentId}(contentId = ${content.contentId})}" class="text-decoration-none text-dark" th:text="${content.title}"></td>
+                    <td th:text="${content.member.name}">name</td>
+                    <td th:text="${#calendars.format(#calendars.createNow(), 'yyyy년 MM월 dd일')} eq ${#temporals.format(content.createdDate, 'yyyy년 MM월 dd일')}
+         ? ${#temporals.format(content.createdDate, 'hh:mm')} : ${#temporals.format(content.createdDate, 'yyyy년 MM월 dd일')}">createdDate</td>
+                    <td th:text="${content.views}">views</td>
+                </tr>
+            </table>
+
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{/members/my-activity?page=1}" aria-label="First">
+                                    <span aria-hidden="true">처음</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{/members/my-activity(page = ${pagination.prevBlock})}" aria-label="Previous">
+                                    <span aria-hidden="true">이전</span>
+                                </a>
+                            </li>
+                            <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+                                <th:block th:each="pageButton : ${#numbers.sequence(start, end)}">
+                                    <li class="page-item" th:classappend="${pagination.page eq pageButton} ? active">
+                                        <a class="page-link" th:href="@{/members/my-activity(page = ${pageButton})}" th:text=${pageButton}></a>
+                                    </li>
+                                </th:block>
+                            </th:block>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{/members/my-activity(page = ${pagination.nextBlock})}" aria-label="Next">
+                                    <span aria-hidden="true">다음</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{/members/my-activity(page = ${pagination.totalPageCnt})}" aria-label="Last">
+                                    <span aria-hidden="true">끝</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</html>

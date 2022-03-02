@@ -9,28 +9,24 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class MemberRepository {
 
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional(readOnly = false)
     public Long save(Member member) {
         em.persist(member);
         return member.getMemberId();
     }
 
     public Member findByMemberId(Long id) {
-        return em.find(Member.class, id);
+        return em.createQuery("select m from Member m where m.memberId = :id", Member.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
-    @Transactional(readOnly = false)
     public void remove(Member member) {
-        em.flush();
-        em.createQuery("delete from Member m where m.memberId = :id")
-                .setParameter("id", member.getMemberId())
-                .executeUpdate();
+        em.remove(member);
     }
 
     public List<Member> findAll() {

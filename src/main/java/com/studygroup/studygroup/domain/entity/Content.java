@@ -16,11 +16,14 @@ public class Content extends BaseEntity {
 
     private String title;
 
+    @Lob
     private String mainText;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    private Long views = 0L;
 
     public Content(String title, String mainText, Member member) {
         this.title = title;
@@ -31,5 +34,9 @@ public class Content extends BaseEntity {
     public void update(String title, String mainText) {
         this.title = title;
         this.mainText = mainText;
+    }
+
+    public void addView() {
+        this.views++;
     }
 }
